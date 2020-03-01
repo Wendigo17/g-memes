@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdlib>
 #include <stdio.h>
+#include <random>
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
@@ -32,8 +33,6 @@ int generateRandNumber(int min, int max)
 int main()
 {
     FreeConsole();
-
-
 	bool bShouldLoop{ true };
 	std::string urlToCopy;
     std::string urlToHold = "https://nhentai.net/g/";
@@ -80,16 +79,26 @@ int main()
     displayedUrl.setFont(font);
     displayedUrl.setCharacterSize(40);
     displayedUrl.setFillColor(sf::Color::White);
-    displayedUrl.setPosition(halfWidth - 54, halfHeight - 19);
+    displayedUrl.setPosition(halfWidth - 67, halfHeight - 19);
 
-    sf::RectangleShape urlBox(sf::Vector2f(125.f, 45.f));
+    sf::RectangleShape urlBox(sf::Vector2f(150.f, 45.f));
     urlBox.setFillColor(sf::Color::Black);
-    urlBox.setPosition(halfWidth - 62, halfHeight - 15);
+    urlBox.setPosition(halfWidth - 75, halfHeight - 15);
 
 
-    sf::RectangleShape urlBoard(sf::Vector2f(131.f, 51.f));
+    sf::RectangleShape urlBoard(sf::Vector2f(156.f, 51.f));
     urlBoard.setFillColor(backColor);
-    urlBoard.setPosition(halfWidth - 65, halfHeight - 18);
+    urlBoard.setPosition(halfWidth - 78, halfHeight - 18);
+
+
+
+    std::random_device rd;
+
+    /* Random number generator */
+    std::default_random_engine generator(rd());
+
+    /* Distribution on which to apply the generator */
+    std::uniform_int_distribution<long long unsigned> distribution(0, 303514);
 
     int displayNum = 0;
     bool shouldBreak = false;
@@ -117,7 +126,7 @@ int main()
                 {
                     if (event.key.code == sf::Keyboard::Space)
                     {
-                        displayNum = generateRandNumber(1, 303463);
+                        displayNum = distribution(generator);
                         urlToCopy = urlToHold + std::to_string(displayNum);
                     }
                     else if (event.key.code == sf::Keyboard::C)
